@@ -3,7 +3,7 @@ import BasePage from './BasePage';
 class AddRemovePage extends BasePage {
     selectors = {
         addElementButton: 'button[onclick="addElement()"]',
-        deleteButtons: 'button.added-manually',
+        deleteButton: 'button.added-manually',
     };
 
     getAddElementButton() {
@@ -11,19 +11,19 @@ class AddRemovePage extends BasePage {
     }
 
     clickAddElementButton() {
-        this.click(this.selectors.addElementButton); // BasePage click method
+        this.getAddElementButton().click();
     }
     
     getDeleteButton() {
-        return cy.get(this.selectors.deleteButtons).should('be.visible').and('contain.text', 'Delete');
+        return cy.get(this.selectors.deleteButton).should('be.visible').and('contain.text', 'Delete');
     }
 
     clickDeleteButton(index = 0) {
-        cy.get(this.selectors.deleteButtons).eq(index).click();
+        this.getDeleteButton().eq(index).click();
     }
 
     verifyNumberOfDeleteButtons(expectedCount) {
-        cy.get(this.selectors.deleteButtons).should('have.length', expectedCount);
+        cy.get(this.selectors.deleteButton).should('have.length', expectedCount);
     }
 }
 

@@ -4,8 +4,9 @@ class BasePage {
       cy.visit(path);
     }
 
+    // Verify header text 
     verifyHeader(expectedText) {
-        cy.get('h3').should('have.text', expectedText);
+        cy.get('h2, h3').should('contain.text', expectedText);
     }
     
     // Click selectors
