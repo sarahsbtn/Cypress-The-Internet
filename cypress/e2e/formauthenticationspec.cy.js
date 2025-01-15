@@ -14,6 +14,11 @@ describe('Login Page Tests', () => {
         cy.get(loginPage.selectors.passwordInput).should('exist');
         cy.get(loginPage.selectors.loginButton).should('exist');
     });
+    
+    it('should verify input field attributes', () => {
+        cy.get(loginPage.selectors.usernameInput).should('have.attr', 'type', 'text');
+        cy.get(loginPage.selectors.passwordInput).should('have.attr', 'type', 'password');
+    });
 
     it('should login with the correct credentials', () => {
         loginPage.correctLogin();
@@ -44,4 +49,16 @@ describe('Login Page Tests', () => {
         loginPage.verifyLoginError('tomsmith', 'invalidPassword', 'Your password is invalid!');
     });
 
+    it('should maintain session after a page refresh', () => {
+        loginPage.correctLogin();
+        cy.reload();
+        loginPage.verifyHeader('Secure Area');
+    });
+
+    it('should redirect to login page when accessing secure area without login and display login prompt message', () => {
+        loginPage.visit('/secure');
+        loginPage.verifyHeader('Login Page');
+        loginPage.getFlashMessage().should('contain.text', 'You must login to view the secure area!');
+    });
+    
 });
